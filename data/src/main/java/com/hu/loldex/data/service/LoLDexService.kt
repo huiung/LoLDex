@@ -1,7 +1,9 @@
-package com.hu.loldex
+package com.hu.loldex.data.service
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.hu.loldex.data.api.model.ApiResponse
+import com.hu.loldex.data.api.model.ChampionsApiData
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 /*
  * Designed and developed by 2023 huiung
@@ -17,7 +19,15 @@ import dagger.hilt.android.HiltAndroidApp
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-@HiltAndroidApp
-class LoLdexApp: Application()
+interface LoLDexService {
+
+    @GET("api/versions.json")
+    suspend fun getVersions(): ApiResponse<List<String>>
+
+    @GET("cdn/{version}/data/en_US/champion.json")
+    suspend fun getChampions(
+        @Path("version") version: String
+    ): ApiResponse<ChampionsApiData>
+
+}
