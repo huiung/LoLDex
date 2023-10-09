@@ -126,5 +126,6 @@ data class ChampionApiData(
         @Json(name = "attackdamage") val attackdamage: Double,
         @Json(name = "attackdamageperlevel") val attackdamageperlevel: Double,
         @Json(name = "attackspeedperlevel") val attackspeedperlevel: Double,
+        @Json(name = "attackspeed") val attackspeed: Double
     )
 }
