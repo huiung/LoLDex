@@ -23,10 +23,10 @@ interface LoLDexService {
 
     @GET("api/versions.json")
     suspend fun getVersions(): List<String>
-
-    @GET("cdn/{version}/data/en_US/champion.json")
+    @GET("cdn/{version}/data/{language}/champion.json")
     suspend fun getChampions(
-        @Path("version") version: String
+        @Path("version") version: String,
+        @Path("language") language: String = "ko_KR"
     ): ChampionsApiData
 
 }

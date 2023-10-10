@@ -1,4 +1,4 @@
-package com.hu.loldex.ui
+package com.hu.loldex.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.hu.loldex.ui.theme.LoldexTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 /*
  * Designed and developed by 2023 huiung
@@ -28,6 +29,7 @@ import com.hu.loldex.ui.theme.LoldexTheme
  * limitations under the License.
  */
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,25 +40,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    MainNavGraph()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LoldexTheme {
-        Greeting("Android")
     }
 }

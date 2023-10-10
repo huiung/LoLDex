@@ -1,5 +1,6 @@
 package com.hu.loldex.data.api.model
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /*
@@ -19,9 +20,8 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class ChampionsApiData(
-    val type: String,
-    val format: String,
-    val version: String,
-    val data: Map<String, ChampionApiData>
-) {
-}
+    @Json(name = "type") val type: String,
+    @Json(name = "format") val format: String,
+    @Json(name = "version") val version: String,
+    @Json(name = "data") val data: Map<String, ChampionApiData>
+)

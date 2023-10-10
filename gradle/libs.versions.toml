@@ -15,6 +15,7 @@ retrofit2 = "2.9.0"
 okhttp3 = "4.10.0"
 
 hilt = "2.48.1"
+hilt_navigation_compose = "1.0.0"
 
 androidx_core_ktx = "1.12.0"
 androidx_appcompat = "1.6.1"
@@ -71,6 +72,7 @@ okhttp3_logging_interceptor = { module = "com.squareup.okhttp3:logging-intercept
 #hilt
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt_navigation_compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt_navigation_compose" }
 
 #compose
 compose_bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
