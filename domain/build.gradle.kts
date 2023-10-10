@@ -2,11 +2,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.hu.loldex.data"
+    namespace = "com.hu.loldex.domain"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -26,16 +25,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-
-    implementation(libs.retrofit2)
-    implementation(libs.retrofit2.converter.moshi)
-    implementation(libs.moshi.kotlin)
-    implementation(libs.okhttp3.logging.interceptor)
-
-    //hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
