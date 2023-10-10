@@ -1,8 +1,10 @@
-package com.hu.loldex.data.service
+package com.hu.loldex.domain
 
-import com.hu.loldex.data.api.model.ChampionsApiData
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.hu.loldex.data.repository.LoLDexRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 /*
  * Designed and developed by 2023 huiung
@@ -19,14 +21,16 @@ import retrofit2.http.Path
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface LoLDexService {
-
-    @GET("api/versions.json")
-    suspend fun getVersions(): List<String>
-
-    @GET("cdn/{version}/data/en_US/champion.json")
-    suspend fun getChampions(
-        @Path("version") version: String
-    ): ChampionsApiData
+class GetVersionUseCase @Inject constructor(
+    private val repository: LoLDexRepository
+) : UseCase<Unit, List<String>>() {
+    override fun execute(parameters: Unit): Flow<Result<List<String>>> =
+        repository.getVersions()
+            .map {
+                Result.success(it)
+            }
+            .catch {
+                emit(Result.failure(it))
+            }
 
 }

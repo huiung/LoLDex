@@ -1,6 +1,4 @@
-package com.hu.loldex.data.entity
-
-import com.squareup.moshi.JsonClass
+package com.hu.loldex.entity
 
 /*
  * Designed and developed by 2023 huiung
@@ -24,11 +22,11 @@ data class ChampionEntity(
     val name: String,
     val title: String,
     val blurb: String,
-    val info: ChampionEntity.Info,
-    val image: ChampionEntity.Image,
+    val info: Info,
+    val image: Image,
     val tags: List<String>,
     val partype: String,
-    val stats: ChampionEntity.Stats
+    val stats: Stats
 ) {
 
     data class Info(

@@ -1,4 +1,7 @@
-package com.hu.loldex.data.mapper
+package com.hu.loldex.data.repository
+
+import com.hu.loldex.data.api.model.ChampionApiData
+import kotlinx.coroutines.flow.Flow
 
 /*
  * Designed and developed by 2023 huiung
@@ -15,7 +18,12 @@ package com.hu.loldex.data.mapper
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface EntityMapper<Entity, Model> {
-    fun mapFromEntity(entity: Entity): Model
-    fun mapToEntity(model: Model): Entity
+interface LoLDexRepository {
+
+    fun getVersions(): Flow<List<String>>
+    fun getChampions(
+        version: String,
+        language: String
+    ): Flow<List<ChampionApiData>>
+
 }

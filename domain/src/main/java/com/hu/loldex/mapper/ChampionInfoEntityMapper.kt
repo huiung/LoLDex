@@ -1,7 +1,7 @@
-package com.hu.loldex.data.mapper
+package com.hu.loldex.mapper
 
 import com.hu.loldex.data.api.model.ChampionApiData
-import com.hu.loldex.data.entity.ChampionEntity
+import com.hu.loldex.entity.ChampionEntity
 import javax.inject.Inject
 
 /*

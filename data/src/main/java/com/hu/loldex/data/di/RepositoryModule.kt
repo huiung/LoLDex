@@ -1,8 +1,11 @@
-package com.hu.loldex.data.service
+package com.hu.loldex.data.di
 
-import com.hu.loldex.data.api.model.ChampionsApiData
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.hu.loldex.data.repository.LoLDexRepository
+import com.hu.loldex.data.repository.LoLDexRepositoryImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 /*
  * Designed and developed by 2023 huiung
@@ -19,14 +22,12 @@ import retrofit2.http.Path
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface LoLDexService {
+@Module
+@InstallIn(SingletonComponent::class)
+internal abstract class RepositoryModule {
 
-    @GET("api/versions.json")
-    suspend fun getVersions(): List<String>
-
-    @GET("cdn/{version}/data/en_US/champion.json")
-    suspend fun getChampions(
-        @Path("version") version: String
-    ): ChampionsApiData
-
+    @Binds
+    abstract fun bindLoLDexRepository(
+        repository: LoLDexRepositoryImpl
+    ): LoLDexRepository
 }

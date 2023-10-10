@@ -1,8 +1,6 @@
-package com.hu.loldex.data.service
+package com.hu.loldex.domain
 
-import com.hu.loldex.data.api.model.ChampionsApiData
-import retrofit2.http.GET
-import retrofit2.http.Path
+import kotlinx.coroutines.flow.Flow
 
 /*
  * Designed and developed by 2023 huiung
@@ -19,14 +17,7 @@ import retrofit2.http.Path
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface LoLDexService {
+abstract class UseCase<P, T> {
 
-    @GET("api/versions.json")
-    suspend fun getVersions(): List<String>
-
-    @GET("cdn/{version}/data/en_US/champion.json")
-    suspend fun getChampions(
-        @Path("version") version: String
-    ): ChampionsApiData
-
+      abstract fun execute(parameters: P): Flow<Result<T>>
 }

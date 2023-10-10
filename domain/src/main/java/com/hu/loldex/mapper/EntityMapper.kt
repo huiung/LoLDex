@@ -1,4 +1,4 @@
-package com.hu.loldex.data.api.model
+package com.hu.loldex.mapper
 
 /*
  * Designed and developed by 2023 huiung
@@ -15,7 +15,7 @@ package com.hu.loldex.data.api.model
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-sealed interface ApiResponse<T> {
-    data class Success<T>(val data: T? = null) : ApiResponse<T>
-    data class Error<T>(val message: String? = null) : ApiResponse<T>
+interface EntityMapper<Entity, Model> {
+    fun mapFromEntity(entity: Entity): Model
+    fun mapToEntity(model: Model): Entity
 }

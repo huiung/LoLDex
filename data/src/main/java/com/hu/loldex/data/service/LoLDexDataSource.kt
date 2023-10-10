@@ -1,6 +1,5 @@
 package com.hu.loldex.data.service
 
-import com.hu.loldex.data.api.model.ApiResponse
 import com.hu.loldex.data.api.model.ChampionsApiData
 import javax.inject.Inject
 
@@ -23,11 +22,11 @@ class LoLDexDataSource @Inject constructor(
     private val lolDexService: LoLDexService
 ) {
 
-    suspend fun getVersions(): ApiResponse<List<String>> {
+    suspend fun getVersions(): List<String> {
         return lolDexService.getVersions()
     }
 
-    suspend fun getChampions(version: String): ApiResponse<ChampionsApiData> {
+    suspend fun getChampions(version: String): ChampionsApiData {
         return lolDexService.getChampions(version)
     }
 
