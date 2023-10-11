@@ -39,13 +39,14 @@ class ChampionListViewModel @Inject constructor(
 
     val version : StateFlow<List<String>> = _version
     val champions : StateFlow<List<ChampionEntity>> = _champions
+    val language : List<String> = listOf("en_US", "ko_KR")
     val error = _error
     init {
         viewModelScope.launch {
             getVersionUseCase.execute(Unit).first()
                 .onSuccess {
                     _version.value = it
-                    getChampions(it.first(), "ko_KR")
+                    getChampions(it.first(), language.first())
                 }.onFailure {
                     _error.value = it.message
                 }

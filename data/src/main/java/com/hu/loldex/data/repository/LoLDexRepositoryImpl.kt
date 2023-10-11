@@ -33,7 +33,7 @@ internal class LoLDexRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override fun getChampions(version: String, language: String) = flow {
-        val response = loLDexService.getChampions(version)
+        val response = loLDexService.getChampions(version, language)
         emit(response.data.values.toList())
     }.flowOn(Dispatchers.IO)
 }

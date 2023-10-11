@@ -27,7 +27,7 @@ class GetVersionUseCase @Inject constructor(
     override fun execute(parameters: Unit): Flow<Result<List<String>>> =
         repository.getVersions()
             .map {
-                Result.success(it)
+                Result.success(it.take(300))
             }
             .catch {
                 emit(Result.failure(it))
