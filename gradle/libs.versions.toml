@@ -34,6 +34,9 @@ espresso_core = "3.5.1"
 composeBom = "2023.09.00"
 composeCompiler = "1.5.3"
 
+#coil
+coil = "2.4.0"
+
 [libraries]
 
 # androidX
@@ -90,6 +93,8 @@ compose_lifecycle_runtime = { group = "androidx.lifecycle", name = "lifecycle-ru
 compose_material = { group = "androidx.compose.material", name = "material" }
 compose_material3 = { group = "androidx.compose.material3", name = "material3" }
 
+#coil
+coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]
 android_application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
