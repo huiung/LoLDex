@@ -3,7 +3,9 @@ package com.hu.loldex.ui.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 /*
  * Designed and developed by 2023 huiung
@@ -22,22 +24,19 @@ import coil.compose.AsyncImage
  */
 @Composable
 fun ChampionImage(
-    version: String,
-    postFix: String,
+    url: String,
     modifier: Modifier = Modifier,
     contentScale: ContentScale,
     contentDescription: String? = null
 ) {
 
-    val url = getChampionImageUrl(version, postFix)
     AsyncImage(
-        model = url,
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(url)
+            .crossfade(true)
+            .build(),
         contentDescription = contentDescription,
         modifier = modifier,
-        contentScale = contentScale
+        contentScale = contentScale,
     )
-}
-
-private fun getChampionImageUrl(version: String, postFix: String): String {
-    return "https://ddragon.leagueoflegends.com/cdn/$version/img/champion/$postFix"
 }

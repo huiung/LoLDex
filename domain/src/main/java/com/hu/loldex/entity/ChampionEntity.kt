@@ -1,5 +1,8 @@
 package com.hu.loldex.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /*
  * Designed and developed by 2023 huiung
  *
@@ -15,6 +18,8 @@ package com.hu.loldex.entity
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+@Parcelize
 data class ChampionEntity(
     val version: String,
     val id: String,
@@ -27,15 +32,17 @@ data class ChampionEntity(
     val tags: List<String>,
     val partype: String,
     val stats: Stats
-) {
+) : Parcelable {
 
+    @Parcelize
     data class Info(
         val attack: Int,
         val defense: Int,
         val magic: Int,
         val difficulty: Int
-    )
+    ) : Parcelable
 
+    @Parcelize
     data class Image(
         val full: String,
         val sprite: String,
@@ -44,8 +51,13 @@ data class ChampionEntity(
         val y: Int,
         val w: Int,
         val h: Int
-    )
+    ) : Parcelable {
+        fun getChampionImageUrl(version: String): String {
+            return "https://ddragon.leagueoflegends.com/cdn/$version/img/champion/$full"
+        }
+    }
 
+    @Parcelize
     data class Stats(
         val hp: Double,
         val hpperlevel: Double,
@@ -67,5 +79,5 @@ data class ChampionEntity(
         val attackdamageperlevel: Double,
         val attackspeedperlevel: Double,
         val attackspeed: Double
-    )
+    ) : Parcelable
 }

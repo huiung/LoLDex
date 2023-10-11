@@ -102,5 +102,6 @@ android_library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt_android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 
 
