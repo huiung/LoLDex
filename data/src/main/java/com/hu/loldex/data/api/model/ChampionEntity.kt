@@ -1,5 +1,9 @@
 package com.hu.loldex.data.api.model
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -71,19 +75,20 @@ import com.squareup.moshi.JsonClass
       }
     },
  */
+@Entity(tableName = "champion", indices = [Index(value = ["id"], unique = true)])
 @JsonClass(generateAdapter = true)
-data class ChampionApiData(
+data class ChampionEntity(
     @Json(name = "version") val version: String,
-    @Json(name = "id") val id: String,
+    @PrimaryKey @Json(name = "id") val id: String,
     @Json(name = "key") val key: String,
     @Json(name = "name") val name: String,
     @Json(name = "title") val title: String,
     @Json(name = "blurb") val blurb: String,
-    @Json(name = "info") val info: Info,
-    @Json(name = "image") val image: Image,
+    @Embedded @Json(name = "info") val info: Info,
+    @Embedded @Json(name = "image") val image: Image,
     @Json(name = "tags") val tags: List<String>,
     @Json(name = "partype") val partype: String,
-    @Json(name = "stats") val stats: Stats
+    @Embedded @Json(name = "stats") val stats: Stats
 ) {
 
     @JsonClass(generateAdapter = true)

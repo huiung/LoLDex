@@ -1,7 +1,7 @@
 package com.hu.loldex.mapper
 
-import com.hu.loldex.data.api.model.ChampionApiData
-import com.hu.loldex.entity.ChampionEntity
+import com.hu.loldex.data.api.model.ChampionEntity
+import com.hu.loldex.model.Champion
 import javax.inject.Inject
 
 /*
@@ -19,11 +19,11 @@ import javax.inject.Inject
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ChampionInfoEntityMapper @Inject constructor(
+class ChampionInfoMapper @Inject constructor(
 
-) : EntityMapper<ChampionEntity.Info, ChampionApiData.Info> {
-    override fun mapFromEntity(entity: ChampionEntity.Info): ChampionApiData.Info {
-        return ChampionApiData.Info(
+) : EntityMapper<ChampionEntity.Info, Champion.Info> {
+    override fun mapFromEntity(entity: ChampionEntity.Info): Champion.Info {
+        return Champion.Info(
             attack = entity.attack,
             defense = entity.defense,
             magic = entity.magic,
@@ -31,7 +31,7 @@ class ChampionInfoEntityMapper @Inject constructor(
         )
     }
 
-    override fun mapToEntity(model: ChampionApiData.Info): ChampionEntity.Info {
+    override fun mapToEntity(model: Champion.Info): ChampionEntity.Info {
         return ChampionEntity.Info(
             attack = model.attack,
             defense = model.defense,

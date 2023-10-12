@@ -19,9 +19,9 @@ import com.squareup.moshi.JsonClass
  * limitations under the License.
  */
 @JsonClass(generateAdapter = true)
-data class ChampionsApiData(
+data class ChampionsEntity(
     @Json(name = "type") val type: String,
     @Json(name = "format") val format: String,
     @Json(name = "version") val version: String,
-    @Json(name = "data") val data: Map<String, ChampionApiData>
+    @Json(name = "data") val data: Map<String, ChampionEntity>
 )

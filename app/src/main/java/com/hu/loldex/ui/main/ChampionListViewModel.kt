@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hu.loldex.domain.GetChampionsUseCase
 import com.hu.loldex.domain.GetVersionUseCase
-import com.hu.loldex.entity.ChampionEntity
+import com.hu.loldex.model.Champion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,11 +34,11 @@ class ChampionListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _version : MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    private val _champions : MutableStateFlow<List<ChampionEntity>> = MutableStateFlow(emptyList())
+    private val _champions : MutableStateFlow<List<Champion>> = MutableStateFlow(emptyList())
     private val _error : MutableStateFlow<String?> = MutableStateFlow(null)
 
     val version : StateFlow<List<String>> = _version
-    val champions : StateFlow<List<ChampionEntity>> = _champions
+    val champions : StateFlow<List<Champion>> = _champions
     val language : List<String> = listOf("en_US", "ko_KR")
     val error = _error
     init {

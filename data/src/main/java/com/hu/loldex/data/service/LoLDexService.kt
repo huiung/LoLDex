@@ -1,6 +1,6 @@
 package com.hu.loldex.data.service
 
-import com.hu.loldex.data.api.model.ChampionsApiData
+import com.hu.loldex.data.api.model.ChampionsEntity
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -27,6 +27,6 @@ interface LoLDexService {
     suspend fun getChampions(
         @Path("version") version: String,
         @Path("language") language: String = "ko_KR"
-    ): ChampionsApiData
+    ): ChampionsEntity
 
 }

@@ -1,4 +1,4 @@
-package com.hu.loldex.entity
+package com.hu.loldex.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -20,7 +20,7 @@ import kotlinx.parcelize.Parcelize
  */
 
 @Parcelize
-data class ChampionEntity(
+data class Champion(
     val version: String,
     val id: String,
     val key: String,

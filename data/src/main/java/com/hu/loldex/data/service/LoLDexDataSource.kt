@@ -1,6 +1,6 @@
 package com.hu.loldex.data.service
 
-import com.hu.loldex.data.api.model.ChampionsApiData
+import com.hu.loldex.data.api.model.ChampionsEntity
 import javax.inject.Inject
 
 /*
@@ -26,7 +26,7 @@ class LoLDexDataSource @Inject constructor(
         return lolDexService.getVersions()
     }
 
-    suspend fun getChampions(version: String): ChampionsApiData {
+    suspend fun getChampions(version: String): ChampionsEntity {
         return lolDexService.getChampions(version)
     }
 

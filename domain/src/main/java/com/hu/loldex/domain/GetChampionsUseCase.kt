@@ -1,7 +1,7 @@
 package com.hu.loldex.domain
 
-import com.hu.loldex.entity.ChampionEntity
-import com.hu.loldex.mapper.ChampionEntityMapper
+import com.hu.loldex.model.Champion
+import com.hu.loldex.mapper.ChampionMapper
 import com.hu.loldex.data.repository.LoLDexRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -25,14 +25,14 @@ import javax.inject.Inject
  */
 class GetChampionsUseCase @Inject constructor(
     private val repository: LoLDexRepository,
-    private val championEntityMapper: ChampionEntityMapper
-) : UseCase<GetChampionsUseCase.Parameters, List<ChampionEntity>>() {
-    override fun execute(parameters: GetChampionsUseCase.Parameters): Flow<Result<List<ChampionEntity>>> =
+    private val championMapper: ChampionMapper
+) : UseCase<GetChampionsUseCase.Parameters, List<Champion>>() {
+    override fun execute(parameters: GetChampionsUseCase.Parameters): Flow<Result<List<Champion>>> =
         repository.getChampions(parameters.version, parameters.language)
             .map { list ->
                 Result.success(
-                    list.map { championApiData ->
-                        championEntityMapper.mapToEntity(championApiData)
+                    list.map { championEntity ->
+                        championMapper.mapFromEntity(championEntity)
                     }
                 )
             }.catch { e ->

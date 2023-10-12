@@ -1,6 +1,7 @@
 package com.hu.loldex.ui.main
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,7 +36,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hu.loldex.entity.ChampionEntity
+import androidx.navigation.NavController
+import com.hu.loldex.model.Champion
 import com.hu.loldex.ui.utils.ChampionImage
 
 /*
@@ -57,6 +59,7 @@ import com.hu.loldex.ui.utils.ChampionImage
 @Composable
 fun ChampionListRoute(
     vm: ChampionListViewModel,
+    navController: NavController,
     onBackPressed: () -> Unit,
 ) {
     Scaffold(
@@ -72,7 +75,7 @@ fun ChampionListRoute(
             )
         }
     ) { innerPadding ->
-        ChampionListScreen(innerPadding, vm, onBackPressed)
+        ChampionListScreen(innerPadding, vm, navController, onBackPressed)
     }
 
 }
@@ -81,6 +84,7 @@ fun ChampionListRoute(
 private fun ChampionListScreen(
     innerPadding : PaddingValues,
     vm: ChampionListViewModel,
+    navController: NavController,
     onBackPressed: () -> Unit,
 ) {
 
@@ -118,28 +122,30 @@ private fun ChampionListScreen(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(items = champions, key = { it.key }) { champion ->
-                ChampionItem(champion)
+                ChampionItem(navController, champion)
             }
         }
     }
 }
 
 @Composable
-private fun ChampionItem(championEntity: ChampionEntity) {
+private fun ChampionItem(navController: NavController, champion: Champion) {
     Column(
         Modifier
             .background(color = Color.Black, shape = RoundedCornerShape(10.dp))
+            .clickable {
+                navController.navigate(MainDestinations.CHAMPION_DETAIL_ROUTE)
+            }
     ) {
         ChampionImage(
-            version = championEntity.version,
-            postFix = championEntity.image.full,
+            url = champion.image.getChampionImageUrl(champion.version),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp),
             contentScale = ContentScale.FillWidth,
         )
         Text(
-            text = championEntity.name,
+            text = champion.name,
             fontSize = 13.sp,
             color = Color.White,
             fontWeight = FontWeight.Bold,

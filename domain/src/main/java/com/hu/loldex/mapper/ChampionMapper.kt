@@ -1,7 +1,7 @@
 package com.hu.loldex.mapper
 
-import com.hu.loldex.data.api.model.ChampionApiData
-import com.hu.loldex.entity.ChampionEntity
+import com.hu.loldex.data.api.model.ChampionEntity
+import com.hu.loldex.model.Champion
 import javax.inject.Inject
 
 /*
@@ -19,28 +19,28 @@ import javax.inject.Inject
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ChampionEntityMapper @Inject constructor(
-    private val championInfoEntityMapper: ChampionInfoEntityMapper,
-    private val championImageEntityMapper: ChampionImageEntityMapper,
-    private val championStatsEntityMapper: ChampionStatsEntityMapper
-) : EntityMapper<ChampionEntity, ChampionApiData> {
-    override fun mapFromEntity(entity: ChampionEntity): ChampionApiData =
-        ChampionApiData(
+class ChampionMapper @Inject constructor(
+    private val championInfoMapper: ChampionInfoMapper,
+    private val championImageMapper: ChampionImageMapper,
+    private val championStatsMapper: ChampionStatsMapper
+) : EntityMapper<ChampionEntity, Champion> {
+    override fun mapFromEntity(entity: ChampionEntity): Champion =
+        Champion(
             version = entity.version,
             id = entity.id,
             key = entity.key,
             name = entity.name,
             title = entity.title,
             blurb = entity.blurb,
-            info = championInfoEntityMapper.mapFromEntity(entity.info),
-            image = championImageEntityMapper.mapFromEntity(entity.image),
+            info = championInfoMapper.mapFromEntity(entity.info),
+            image = championImageMapper.mapFromEntity(entity.image),
             tags = entity.tags,
             partype = entity.partype,
-            stats = championStatsEntityMapper.mapFromEntity(entity.stats)
+            stats = championStatsMapper.mapFromEntity(entity.stats)
         )
 
 
-    override fun mapToEntity(model: ChampionApiData): ChampionEntity =
+    override fun mapToEntity(model: Champion): ChampionEntity =
         ChampionEntity(
             version = model.version,
             id = model.id,
@@ -48,11 +48,11 @@ class ChampionEntityMapper @Inject constructor(
             name = model.name,
             title = model.title,
             blurb = model.blurb,
-            info = championInfoEntityMapper.mapToEntity(model.info),
-            image = championImageEntityMapper.mapToEntity(model.image),
+            info = championInfoMapper.mapToEntity(model.info),
+            image = championImageMapper.mapToEntity(model.image),
             tags = model.tags,
             partype = model.partype,
-            stats = championStatsEntityMapper.mapToEntity(model.stats)
+            stats = championStatsMapper.mapToEntity(model.stats)
         )
 
 }

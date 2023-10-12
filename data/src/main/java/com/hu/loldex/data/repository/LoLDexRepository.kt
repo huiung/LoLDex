@@ -1,6 +1,6 @@
 package com.hu.loldex.data.repository
 
-import com.hu.loldex.data.api.model.ChampionApiData
+import com.hu.loldex.data.api.model.ChampionEntity
 import kotlinx.coroutines.flow.Flow
 
 /*
@@ -24,6 +24,6 @@ interface LoLDexRepository {
     fun getChampions(
         version: String,
         language: String
-    ): Flow<List<ChampionApiData>>
+    ): Flow<List<ChampionEntity>>
 
 }
