@@ -1,6 +1,6 @@
 package com.hu.loldex.data.repository
 
-import com.hu.loldex.data.api.model.ChampionEntity
+import com.hu.loldex.data.entity.ChampionEntity
 import kotlinx.coroutines.flow.Flow
 
 /*

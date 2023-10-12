@@ -1,4 +1,4 @@
-package com.hu.loldex.data.api.model
+package com.hu.loldex.data.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity

@@ -1,4 +1,4 @@
-package com.hu.loldex.data.api.model
+package com.hu.loldex.data.entity
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

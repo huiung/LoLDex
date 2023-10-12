@@ -1,7 +1,8 @@
-package com.hu.loldex.data.service
+package com.hu.loldex.data.entity
 
-import com.hu.loldex.data.entity.ChampionsEntity
-import javax.inject.Inject
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 
 /*
  * Designed and developed by 2023 huiung
@@ -18,16 +19,16 @@ import javax.inject.Inject
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LoLDexDataSource @Inject constructor(
-    private val lolDexService: LoLDexService
-) {
 
-    suspend fun getVersions(): List<String> {
-        return lolDexService.getVersions()
-    }
+@Dao
+interface ChampionDao {
 
-    suspend fun getChampions(version: String): ChampionsEntity {
-        return lolDexService.getChampions(version)
-    }
+    @Insert
+    fun insertAll(champions: List<ChampionEntity>)
 
+    @Query("SELECT * FROM champion")
+    fun getAll(): List<ChampionEntity>
+
+    @Query("SELECT * FROM champion WHERE id = :id")
+    fun getChampion(id: String): ChampionEntity
 }

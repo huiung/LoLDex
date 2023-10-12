@@ -1,6 +1,6 @@
 package com.hu.loldex.mapper
 
-import com.hu.loldex.data.api.model.ChampionEntity
+import com.hu.loldex.data.entity.ChampionEntity
 import com.hu.loldex.model.Champion
 import javax.inject.Inject
 

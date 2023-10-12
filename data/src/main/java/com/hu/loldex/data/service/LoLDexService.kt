@@ -1,6 +1,6 @@
 package com.hu.loldex.data.service
 
-import com.hu.loldex.data.api.model.ChampionsEntity
+import com.hu.loldex.data.entity.ChampionsEntity
 import retrofit2.http.GET
 import retrofit2.http.Path
 
