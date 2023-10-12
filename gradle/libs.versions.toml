@@ -37,6 +37,9 @@ composeCompiler = "1.5.3"
 #coil
 coil = "2.4.0"
 
+#room
+room = "2.5.2"
+
 [libraries]
 
 # androidX
@@ -95,6 +98,12 @@ compose_material3 = { group = "androidx.compose.material3", name = "material3" }
 
 #coil
 coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+#room
+room_runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room_ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room_testing = { module = "androidx.room:room-testing", version.ref = "room" }
 
 [plugins]
 android_application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
