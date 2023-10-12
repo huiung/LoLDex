@@ -2,6 +2,7 @@ package com.hu.loldex.data.entity
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 /*
@@ -23,7 +24,7 @@ import androidx.room.Query
 @Dao
 interface ChampionDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(champions: List<ChampionEntity>)
 
     @Query("SELECT * FROM champion")

@@ -1,5 +1,6 @@
 package com.hu.loldex.data.repository
 
+import com.hu.loldex.data.entity.ChampionDao
 import com.hu.loldex.data.service.LoLDexService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -24,7 +25,8 @@ import javax.inject.Singleton
  */
 @Singleton
 internal class LoLDexRepositoryImpl @Inject constructor(
-    private val loLDexService: LoLDexService
+    private val loLDexService: LoLDexService,
+    private val championDao: ChampionDao
 ) : LoLDexRepository {
 
     override fun getVersions() = flow {
@@ -32,8 +34,19 @@ internal class LoLDexRepositoryImpl @Inject constructor(
         emit(response)
     }.flowOn(Dispatchers.IO)
 
-    override fun getChampions(version: String, language: String) = flow {
+    override fun getChampions(version: String, language: String, forceLoad: Boolean) = flow {
+        if (!forceLoad) {
+            val champions = championDao.getAll()
+            champions.isNullOrEmpty().not().let {
+                emit(champions)
+                return@flow
+            }
+        }
+
+
         val response = loLDexService.getChampions(version, language)
-        emit(response.data.values.toList())
+        val dataList = response.data.values.toList()
+        championDao.insertAll(dataList)
+        emit(dataList)
     }.flowOn(Dispatchers.IO)
 }

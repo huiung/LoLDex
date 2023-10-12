@@ -122,19 +122,19 @@ private fun ChampionListScreen(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(items = champions, key = { it.key }) { champion ->
-                ChampionItem(navController, champion)
+                ChampionItem(navController, champion, selectedLanguage)
             }
         }
     }
 }
 
 @Composable
-private fun ChampionItem(navController: NavController, champion: Champion) {
+private fun ChampionItem(navController: NavController, champion: Champion, language: String) {
     Column(
         Modifier
             .background(color = Color.Black, shape = RoundedCornerShape(10.dp))
             .clickable {
-                navController.navigate(MainDestinations.CHAMPION_DETAIL_ROUTE)
+                navController.navigate("${MainDestinations.CHAMPION_DETAIL_ROUTE}/${champion.version}/$language/${champion.id}")
             }
     ) {
         ChampionImage(

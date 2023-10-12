@@ -28,7 +28,7 @@ class GetChampionsUseCase @Inject constructor(
     private val championMapper: ChampionMapper
 ) : UseCase<GetChampionsUseCase.Parameters, List<Champion>>() {
     override fun execute(parameters: GetChampionsUseCase.Parameters): Flow<Result<List<Champion>>> =
-        repository.getChampions(parameters.version, parameters.language)
+        repository.getChampions(parameters.version, parameters.language, parameters.forceLoad)
             .map { list ->
                 Result.success(
                     list.map { championEntity ->
@@ -41,6 +41,7 @@ class GetChampionsUseCase @Inject constructor(
 
     data class Parameters(
         val version: String,
-        val language: String
+        val language: String,
+        val forceLoad: Boolean = true
     )
 }

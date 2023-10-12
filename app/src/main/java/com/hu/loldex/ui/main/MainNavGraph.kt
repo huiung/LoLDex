@@ -2,12 +2,12 @@ package com.hu.loldex.ui.main
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 /*
  * Designed and developed by 2023 huiung
@@ -25,9 +25,15 @@ import androidx.navigation.compose.rememberNavController
  * limitations under the License.
  */
 
-private object MainDestinations {
+object MainDestinations {
     const val CHAMPION_LIST_ROUTE = "champion_list"
+    const val CHAMPION_DETAIL_ROUTE = "champion_detail"
 }
+
+object MainArgs {
+    const val CHAMPION_ENTITY = "championEntity"
+}
+
 @Composable
 fun MainNavGraph(
     navController: NavHostController = rememberNavController(),
@@ -40,12 +46,43 @@ fun MainNavGraph(
         composable(route = MainDestinations.CHAMPION_LIST_ROUTE) { backStackEntry ->
             // Creates a ViewModel from the current BackStackEntry
             // Available in the androidx.hilt:hilt-navigation-compose artifact
-            val viewModel = hiltViewModel<ChampionListViewModel>()
-            ChampionListRoute(viewModel) {
+            val vm = hiltViewModel<ChampionListViewModel>()
+            ChampionListRoute(vm, navController) {
                 if (!navController.popBackStack()) {
                     finishActivity()
                 }
             }
+        }
+
+        composable(
+            route = "${MainDestinations.CHAMPION_DETAIL_ROUTE}/{version}/{language}/{championId}",
+            arguments = listOf(
+                navArgument("version") {
+                    // Make argument type safe
+                    type = NavType.StringType
+                },
+                navArgument("language") {
+                    // Make argument type safe
+                    type = NavType.StringType
+                },
+                navArgument("championId") {
+                    // Make argument type safe
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+
+            val version = backStackEntry.arguments?.getString("version") ?: ""
+            val language = backStackEntry.arguments?.getString("language") ?: ""
+            val championId = backStackEntry.arguments?.getString("championId") ?: ""
+
+            val vm = hiltViewModel<ChampionDetailViewModel>()
+            ChampionDetailRoute(vm, version, language, championId, navController) {
+                if (!navController.popBackStack()) {
+                    finishActivity()
+                }
+            }
+
         }
 
     }

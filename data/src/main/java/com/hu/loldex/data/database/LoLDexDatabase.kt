@@ -1,7 +1,10 @@
-package com.hu.loldex.data.repository
+package com.hu.loldex.data.database
 
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.hu.loldex.data.entity.ChampionDao
 import com.hu.loldex.data.entity.ChampionEntity
-import kotlinx.coroutines.flow.Flow
 
 /*
  * Designed and developed by 2023 huiung
@@ -18,13 +21,8 @@ import kotlinx.coroutines.flow.Flow
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface LoLDexRepository {
-
-    fun getVersions(): Flow<List<String>>
-    fun getChampions(
-        version: String,
-        language: String,
-        forceLoad: Boolean
-    ): Flow<List<ChampionEntity>>
-
+@Database(entities = [ChampionEntity::class], version = 1)
+@TypeConverters(Converters::class)
+internal abstract class LoLDexDatabase : RoomDatabase() {
+      abstract fun championDao(): ChampionDao
 }
