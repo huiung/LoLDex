@@ -34,6 +34,9 @@ data class Champion(
     val stats: Stats
 ) : Parcelable {
 
+    fun getChampionLoadingImageUrl(): String {
+        return "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${id}_0.jpg"
+    }
     @Parcelize
     data class Info(
         val attack: Int,

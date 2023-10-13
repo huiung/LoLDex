@@ -1,9 +1,14 @@
 package com.hu.loldex.ui.main
 
+import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -14,10 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ScaleFactor
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.hu.loldex.model.Champion
 import com.hu.loldex.ui.utils.ChampionImage
@@ -79,18 +91,62 @@ fun ChampionDetailRoute(
 
 @Composable
 fun ChampionDetailScreen(
-    innerPadding : PaddingValues,
+    innerPadding: PaddingValues,
     champion: Champion,
     onBackPressed: () -> Unit = { }
 ) {
-    Column(modifier = Modifier.padding(innerPadding)) {
-        Text(champion.name)
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxWidth()
+            .padding(horizontal = 11.dp)
+            .verticalScroll(scrollState),
+        horizontalAlignment = CenterHorizontally,
+        verticalArrangement = spacedBy(16.dp)
+    ) {
+        Text(
+            text = champion.name,
+            fontSize = 13.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+        )
         ChampionImage(
-            url = champion.image.getChampionImageUrl(champion.version),
+            url = champion.getChampionLoadingImageUrl(),
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
+                .fillMaxWidth(0.5f)
+                .clip(RoundedCornerShape(12.dp)),
             contentScale = ContentScale.FillWidth,
+        )
+        Text(
+            text = champion.title,
+            fontSize = 13.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            text = champion.blurb,
+            fontSize = 13.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            text = champion.tags.toString(),
+            fontSize = 13.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            text = champion.info.toString(),
+            fontSize = 13.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            text = champion.stats.toString(),
+            fontSize = 13.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
         )
     }
 
