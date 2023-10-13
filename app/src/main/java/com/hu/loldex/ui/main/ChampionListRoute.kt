@@ -99,7 +99,8 @@ private fun ChampionListScreen(
     Column(modifier = Modifier.padding(innerPadding)) {
         Row {
             DropdownMenuOptions(
-                label = "Version",
+                label = "version",
+                modifier = Modifier.fillMaxWidth(0.6f),
                 options = version,
                 onClick = {
                     selectedVersion = it
@@ -107,7 +108,8 @@ private fun ChampionListScreen(
                 }
             )
             DropdownMenuOptions(
-                label = "Language",
+                label = "lang",
+                modifier = Modifier.fillMaxWidth(1f),
                 options = language,
                 onClick = {
                     selectedLanguage = it
@@ -160,6 +162,7 @@ private fun ChampionItem(navController: NavController, champion: Champion, langu
 @Composable
 private fun DropdownMenuOptions(
     label: String,
+    modifier: Modifier,
     options: List<String>,
     onClick: (String) -> Unit,
 ) {
@@ -176,7 +179,7 @@ private fun DropdownMenuOptions(
         onExpandedChange = {
             expanded = !expanded
         },
-        modifier = Modifier
+        modifier = modifier
             .padding(bottom = 10.dp)
     ) {
         TextField(
