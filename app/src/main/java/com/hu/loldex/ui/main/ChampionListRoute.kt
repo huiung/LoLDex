@@ -12,23 +12,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.hu.loldex.model.Champion
 import com.hu.loldex.ui.utils.ChampionImage
+import com.hu.loldex.ui.utils.LargeDropdownMenu
 
 /*
  * Designed and developed by 2023 huiung
@@ -82,7 +75,7 @@ fun ChampionListRoute(
 
 @Composable
 private fun ChampionListScreen(
-    innerPadding : PaddingValues,
+    innerPadding: PaddingValues,
     vm: ChampionListViewModel,
     navController: NavController,
     onBackPressed: () -> Unit,
@@ -98,23 +91,26 @@ private fun ChampionListScreen(
 
     Column(modifier = Modifier.padding(innerPadding)) {
         Row {
-            DropdownMenuOptions(
+            LargeDropdownMenu(
+                modifier = Modifier.fillMaxWidth(0.6f).padding(start = 11.dp),
                 label = "version",
-                modifier = Modifier.fillMaxWidth(0.6f),
-                options = version,
-                onClick = {
-                    selectedVersion = it
+                items = version,
+                selectedIndex = selectedVersion?.let { version.indexOf(it) } ?: 0,
+                onItemSelected = { index, _ ->
+                    selectedVersion = version[index]
                     vm.getChampions(selectedVersion ?: "", selectedLanguage)
-                }
+                },
             )
-            DropdownMenuOptions(
-                label = "lang",
-                modifier = Modifier.fillMaxWidth(1f),
-                options = language,
-                onClick = {
-                    selectedLanguage = it
+
+            LargeDropdownMenu(
+                label = "language",
+                modifier = Modifier.fillMaxWidth(1f).padding(end = 11.dp),
+                items = language,
+                selectedIndex = selectedLanguage.let { language.indexOf(it) },
+                onItemSelected = { index, _ ->
+                    selectedLanguage = language[index]
                     vm.getChampions(selectedVersion ?: "", selectedLanguage)
-                }
+                },
             )
         }
         LazyVerticalGrid(
@@ -155,64 +151,5 @@ private fun ChampionItem(navController: NavController, champion: Champion, langu
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 10.dp)
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DropdownMenuOptions(
-    label: String,
-    modifier: Modifier,
-    options: List<String>,
-    onClick: (String) -> Unit,
-) {
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options.getOrNull(0)) }
-
-    LaunchedEffect(options) {
-        selectedOptionText = options.getOrNull(0)
-    }
-
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = {
-            expanded = !expanded
-        },
-        modifier = modifier
-            .padding(bottom = 10.dp)
-    ) {
-        TextField(
-            readOnly = true,
-            value = selectedOptionText ?: "",
-            onValueChange = {
-
-            },
-            label = { Text(label) },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expanded
-                )
-            },
-            modifier = Modifier.menuAnchor(),
-            colors = ExposedDropdownMenuDefaults.textFieldColors()
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = {
-                expanded = false
-            }
-        ) {
-            options.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(text = selectionOption) },
-                    onClick = {
-                        selectedOptionText = selectionOption
-                        onClick(selectionOption)
-                        expanded = false
-                    }
-                )
-            }
-        }
     }
 }

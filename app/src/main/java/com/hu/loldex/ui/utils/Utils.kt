@@ -27,4 +27,10 @@ object Utils {
             getParcelable(key, T::class.java)
         }
     }
+
+    fun <T> Boolean.select(a: T, b: T): T = if (this) {
+        a
+    } else {
+        b
+    }
 }

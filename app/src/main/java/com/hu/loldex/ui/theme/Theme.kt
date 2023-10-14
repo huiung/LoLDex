@@ -2,6 +2,7 @@ package com.hu.loldex.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -56,7 +57,12 @@ fun LoLDexTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
+            val context = view.context
+            val window = when (context) {
+                is Activity -> context.window
+                is ContextThemeWrapper -> (context.baseContext as Activity).window
+                else -> return@SideEffect
+            }
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
