@@ -19,16 +19,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.hu.loldex.R
 import com.hu.loldex.model.Champion
 import com.hu.loldex.ui.utils.ChampionImage
 import com.hu.loldex.ui.utils.LargeDropdownMenu
@@ -85,15 +91,22 @@ private fun ChampionListScreen(
     val champions by vm.champions.collectAsState()
     val language = vm.language
 
-    var selectedVersion = version.firstOrNull()
-    var selectedLanguage = language.first()
+    var selectedVersion by rememberSaveable { mutableStateOf(version.firstOrNull()) }
+    var selectedLanguage by rememberSaveable { mutableStateOf(language.first()) }
 
+    LaunchedEffect(version) {
+        if (selectedVersion == null) {
+            selectedVersion = version.firstOrNull()
+        }
+    }
 
     Column(modifier = Modifier.padding(innerPadding)) {
         Row {
             LargeDropdownMenu(
-                modifier = Modifier.fillMaxWidth(0.6f).padding(start = 11.dp),
-                label = "version",
+                modifier = Modifier
+                    .fillMaxWidth(0.6f)
+                    .padding(start = 11.dp),
+                label = stringResource(id = R.string.version),
                 items = version,
                 selectedIndex = selectedVersion?.let { version.indexOf(it) } ?: 0,
                 onItemSelected = { index, _ ->
@@ -103,8 +116,10 @@ private fun ChampionListScreen(
             )
 
             LargeDropdownMenu(
-                label = "language",
-                modifier = Modifier.fillMaxWidth(1f).padding(end = 11.dp),
+                label = stringResource(id = R.string.language_short),
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .padding(end = 11.dp),
                 items = language,
                 selectedIndex = selectedLanguage.let { language.indexOf(it) },
                 onItemSelected = { index, _ ->
