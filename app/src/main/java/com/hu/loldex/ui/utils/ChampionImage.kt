@@ -1,5 +1,6 @@
 package com.hu.loldex.ui.utils
 
+import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,7 +30,8 @@ fun ChampionImage(
     url: String,
     modifier: Modifier = Modifier,
     contentScale: ContentScale,
-    contentDescription: String? = null
+    contentDescription: String? = null,
+    onSuccess: (Drawable) -> Unit = {},
 ) {
 
     AsyncImage(
@@ -41,5 +43,8 @@ fun ChampionImage(
         modifier = modifier,
         contentScale = contentScale,
         placeholder = painterResource(id = R.drawable.champion_placeholder),
+        onSuccess = { success ->
+            onSuccess(success.result.drawable)
+        },
     )
 }

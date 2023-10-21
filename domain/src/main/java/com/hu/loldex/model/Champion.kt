@@ -37,13 +37,22 @@ data class Champion(
     fun getChampionLoadingImageUrl(): String {
         return "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${id}_0.jpg"
     }
+
+    fun getChampionSplashImageUrl(): String {
+        return "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg"
+    }
+
     @Parcelize
     data class Info(
         val attack: Int,
         val defense: Int,
         val magic: Int,
         val difficulty: Int
-    ) : Parcelable
+    ) : Parcelable {
+        override fun toString(): String {
+            return "attack: $attack\ndefense: $defense\nmagic: $magic\ndifficulty: $difficulty"
+        }
+    }
 
     @Parcelize
     data class Image(

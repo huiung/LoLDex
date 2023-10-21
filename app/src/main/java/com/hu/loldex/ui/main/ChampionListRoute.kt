@@ -66,10 +66,10 @@ fun ChampionListRoute(
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 title = {
-                    Text("LoLDex")
+                    Text(stringResource(id = R.string.app_name))
                 }
             )
         }
