@@ -10,7 +10,7 @@ Champion dex of League of legends
   - Room: Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
   - [Hilt](https://dagger.dev/hilt/): for dependency injection.
 - Architecture
-  - MVI + Clean Architecture
+  - MVVM + Clean Architecture
   - Repository Pattern
 - [Material 3](https://m3.material.io/components): Material 3 components.
 - [Moshi](https://github.com/square/moshi/): A modern JSON library for Kotlin and Java.
