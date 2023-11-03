@@ -87,8 +87,10 @@ private fun ChampionListScreen(
     onBackPressed: () -> Unit,
 ) {
 
-    val version by vm.version.collectAsState()
-    val champions by vm.champions.collectAsState()
+
+    val viewState by vm.viewState.collectAsState()
+    val version = viewState.metaData?.versions ?: emptyList()
+    val champions = viewState.dataList
     val language = vm.language
 
     var selectedVersion by rememberSaveable { mutableStateOf(version.firstOrNull()) }
@@ -110,8 +112,8 @@ private fun ChampionListScreen(
                 items = version,
                 selectedIndex = selectedVersion?.let { version.indexOf(it) } ?: 0,
                 onItemSelected = { index, _ ->
-                    selectedVersion = version[index]
-                    vm.getChampions(selectedVersion ?: "", selectedLanguage)
+                    selectedVersion = version.get(index)
+                    vm.sendIntent(ChampionListIntent.GetChampions(selectedVersion ?: "", selectedLanguage))
                 },
             )
 
@@ -124,18 +126,20 @@ private fun ChampionListScreen(
                 selectedIndex = selectedLanguage.let { language.indexOf(it) },
                 onItemSelected = { index, _ ->
                     selectedLanguage = language[index]
-                    vm.getChampions(selectedVersion ?: "", selectedLanguage)
+                    vm.sendIntent(ChampionListIntent.GetChampions(selectedVersion ?: "", selectedLanguage))
                 },
             )
         }
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 150.dp),
-            contentPadding = PaddingValues(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(items = champions, key = { it.key }) { champion ->
-                ChampionItem(navController, champion, selectedLanguage)
+        if (!champions.isNullOrEmpty()) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 150.dp),
+                contentPadding = PaddingValues(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(items = champions, key = { it.key }) { champion ->
+                    ChampionItem(navController, champion, selectedLanguage)
+                }
             }
         }
     }

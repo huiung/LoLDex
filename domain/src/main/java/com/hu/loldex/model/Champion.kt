@@ -32,7 +32,7 @@ data class Champion(
     val tags: List<String>,
     val partype: String,
     val stats: Stats
-) : Parcelable {
+) : Parcelable, Model {
 
     fun getChampionLoadingImageUrl(): String {
         return "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${id}_0.jpg"
@@ -48,7 +48,7 @@ data class Champion(
         val defense: Int,
         val magic: Int,
         val difficulty: Int
-    ) : Parcelable {
+    ) : Parcelable, Model {
         override fun toString(): String {
             return "attack: $attack\ndefense: $defense\nmagic: $magic\ndifficulty: $difficulty"
         }
@@ -63,7 +63,7 @@ data class Champion(
         val y: Int,
         val w: Int,
         val h: Int
-    ) : Parcelable {
+    ) : Parcelable, Model {
         fun getChampionImageUrl(version: String): String {
             return "https://ddragon.leagueoflegends.com/cdn/$version/img/champion/$full"
         }
@@ -91,5 +91,5 @@ data class Champion(
         val attackdamageperlevel: Double,
         val attackspeedperlevel: Double,
         val attackspeed: Double
-    ) : Parcelable
+    ) : Parcelable, Model
 }

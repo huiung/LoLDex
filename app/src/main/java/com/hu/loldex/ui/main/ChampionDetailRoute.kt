@@ -82,10 +82,11 @@ fun ChampionDetailRoute(
     navController: NavController,
     onBackPressed: () -> Unit = { }
 ) {
-    val champion by vm.champion.collectAsState()
+    val viewState by vm.viewState.collectAsState()
+    val champion = viewState.dataList?.firstOrNull()
 
     LaunchedEffect(Unit) {
-        vm.getChampionDetail(version, language, championId)
+        vm.sendIntent(ChampionDetailIntent.GetChampion(version, language, championId))
     }
 
     champion?.let {
@@ -159,7 +160,6 @@ fun ChampionDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = brush, alpha = 0.3f)
             .padding(innerPadding)
             .padding(horizontal = 11.dp)
             .verticalScroll(scrollState),

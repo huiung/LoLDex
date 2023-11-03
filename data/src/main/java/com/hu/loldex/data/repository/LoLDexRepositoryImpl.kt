@@ -1,6 +1,7 @@
 package com.hu.loldex.data.repository
 
 import com.hu.loldex.data.entity.ChampionDao
+import com.hu.loldex.data.entity.VersionsEntity
 import com.hu.loldex.data.service.LoLDexService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -31,7 +32,7 @@ internal class LoLDexRepositoryImpl @Inject constructor(
 
     override fun getVersions() = flow {
         val response = loLDexService.getVersions()
-        emit(response)
+        emit(VersionsEntity(response.take(300)))
     }.flowOn(Dispatchers.IO)
 
     override fun getChampions(version: String, language: String, forceLoad: Boolean) = flow {

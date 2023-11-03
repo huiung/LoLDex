@@ -1,6 +1,7 @@
 package com.hu.loldex.data.repository
 
 import com.hu.loldex.data.entity.ChampionEntity
+import com.hu.loldex.data.entity.VersionsEntity
 import kotlinx.coroutines.flow.Flow
 
 /*
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface LoLDexRepository {
 
-    fun getVersions(): Flow<List<String>>
+    fun getVersions(): Flow<VersionsEntity>
     fun getChampions(
         version: String,
         language: String,

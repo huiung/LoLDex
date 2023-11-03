@@ -1,6 +1,7 @@
-package com.hu.loldex.domain
+package com.hu.loldex.model
 
-import kotlinx.coroutines.flow.Flow
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 /*
  * Designed and developed by 2023 huiung
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class UseCase<P, T> {
-
-      abstract fun execute(parameters: P): Flow<T>
-}
+@Parcelize
+data class Versions(
+    val versions: List<String>
+) : Parcelable, Model

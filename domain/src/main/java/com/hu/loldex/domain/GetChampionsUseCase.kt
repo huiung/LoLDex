@@ -27,16 +27,12 @@ class GetChampionsUseCase @Inject constructor(
     private val repository: LoLDexRepository,
     private val championMapper: ChampionMapper
 ) : UseCase<GetChampionsUseCase.Parameters, List<Champion>>() {
-    override fun execute(parameters: GetChampionsUseCase.Parameters): Flow<Result<List<Champion>>> =
+    override fun execute(parameters: GetChampionsUseCase.Parameters): Flow<List<Champion>> =
         repository.getChampions(parameters.version, parameters.language, parameters.forceLoad)
             .map { list ->
-                Result.success(
-                    list.map { championEntity ->
-                        championMapper.mapFromEntity(championEntity)
-                    }
-                )
-            }.catch { e ->
-                emit(Result.failure(e))
+                list.map { championEntity ->
+                    championMapper.mapFromEntity(championEntity)
+                }
             }
 
     data class Parameters(

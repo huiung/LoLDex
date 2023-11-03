@@ -1,11 +1,7 @@
-package com.hu.loldex.domain
+package com.hu.loldex.mapper
 
-import com.hu.loldex.data.repository.LoLDexRepository
-import com.hu.loldex.mapper.VersionsMapper
+import com.hu.loldex.data.entity.VersionsEntity
 import com.hu.loldex.model.Versions
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /*
@@ -23,14 +19,17 @@ import javax.inject.Inject
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GetVersionUseCase @Inject constructor(
-    private val repository: LoLDexRepository,
-    private val mapper: VersionsMapper
-) : UseCase<Unit, Versions>() {
-    override fun execute(parameters: Unit): Flow<Versions> =
-        repository.getVersions()
-            .map {
-                mapper.mapFromEntity(it)
-            }
+class VersionsMapper  @Inject constructor()
+    : EntityMapper<VersionsEntity, Versions> {
+    override fun mapFromEntity(entity: VersionsEntity): Versions {
+        return Versions(
+            versions = entity.versions
+        )
+    }
 
+    override fun mapToEntity(model: Versions): VersionsEntity {
+        return VersionsEntity(
+            versions = model.versions
+        )
+    }
 }

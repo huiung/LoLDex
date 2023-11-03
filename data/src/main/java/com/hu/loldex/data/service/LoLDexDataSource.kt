@@ -1,6 +1,7 @@
 package com.hu.loldex.data.service
 
 import com.hu.loldex.data.entity.ChampionsEntity
+import com.hu.loldex.data.entity.VersionsEntity
 import javax.inject.Inject
 
 /*

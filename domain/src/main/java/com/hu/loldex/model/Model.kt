@@ -1,6 +1,4 @@
-package com.hu.loldex.domain
-
-import kotlinx.coroutines.flow.Flow
+package com.hu.loldex.model
 
 /*
  * Designed and developed by 2023 huiung
@@ -17,7 +15,4 @@ import kotlinx.coroutines.flow.Flow
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class UseCase<P, T> {
-
-      abstract fun execute(parameters: P): Flow<T>
-}
+interface Model

@@ -5,10 +5,18 @@ import androidx.lifecycle.viewModelScope
 import com.hu.loldex.domain.GetChampionsUseCase
 import com.hu.loldex.domain.GetVersionUseCase
 import com.hu.loldex.model.Champion
+import com.hu.loldex.model.Versions
+import com.hu.loldex.ui.base.MviIntent
+import com.hu.loldex.ui.base.MviSingleEvent
+import com.hu.loldex.ui.base.MviViewModel
+import com.hu.loldex.ui.base.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,36 +39,42 @@ import javax.inject.Inject
 class ChampionListViewModel @Inject constructor(
     private val getChampionsUseCase: GetChampionsUseCase,
     private val getVersionUseCase: GetVersionUseCase
-) : ViewModel() {
+) : MviViewModel<ChampionListSingleEvent, Champion, Versions, ChampionListIntent>() {
 
-    private val _version : MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    private val _champions : MutableStateFlow<List<Champion>> = MutableStateFlow(emptyList())
-    private val _error : MutableStateFlow<String?> = MutableStateFlow(null)
-
-    val version : StateFlow<List<String>> = _version
-    val champions : StateFlow<List<Champion>> = _champions
     val language : List<String> = listOf("ko_KR", "en_US")
-    val error = _error
+
     init {
-        viewModelScope.launch {
-            getVersionUseCase.execute(Unit).first()
-                .onSuccess {
-                    _version.value = it
-                    getChampions(it.first(), language.first())
-                }.onFailure {
-                    _error.value = it.message
-                }
-        }
+        sendIntent(ChampionListIntent.GetVersions)
     }
 
-    fun getChampions(version: String, language: String) {
-        viewModelScope.launch {
-            getChampionsUseCase.execute(GetChampionsUseCase.Parameters(version, language)).first()
-                .onSuccess {
-                    _champions.value = it
-                }.onFailure {
-                    _error.value = it.message
-                }
+    override fun processIntent(intent: ChampionListIntent): Flow<ViewState<Champion, Versions>> {
+        return when(intent) {
+            is ChampionListIntent.GetVersions -> {
+                getVersionUseCase.execute(Unit)
+                    .map {
+                        sendIntent(ChampionListIntent.GetChampions(it.versions[0], language.first()))
+                        ViewState<Champion, Versions>(metaData = it, isLoading = false)
+                    }.catch { e ->
+                        emit(ViewState(error = e))
+                    }
+            }
+            is ChampionListIntent.GetChampions -> {
+                getChampionsUseCase.execute(GetChampionsUseCase.Parameters(intent.version, intent.language))
+                    .map {
+                        ViewState<Champion, Versions>(dataList = it, isLoading = false)
+                    }.catch { e ->
+                        emit(ViewState(error = e))
+                    }
+            }
         }
     }
+}
+
+sealed class ChampionListIntent: MviIntent {
+    data object GetVersions : ChampionListIntent()
+    data class GetChampions(val version: String, val language: String) : ChampionListIntent()
+}
+
+sealed class ChampionListSingleEvent: MviSingleEvent {
+
 }

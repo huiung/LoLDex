@@ -5,10 +5,18 @@ import androidx.lifecycle.viewModelScope
 import com.hu.loldex.domain.GetChampionsUseCase
 import com.hu.loldex.domain.GetVersionUseCase
 import com.hu.loldex.model.Champion
+import com.hu.loldex.model.Versions
+import com.hu.loldex.ui.base.MviIntent
+import com.hu.loldex.ui.base.MviSingleEvent
+import com.hu.loldex.ui.base.MviViewModel
+import com.hu.loldex.ui.base.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,24 +38,28 @@ import javax.inject.Inject
 @HiltViewModel
 class ChampionDetailViewModel @Inject constructor(
     private val getChampionsUseCase: GetChampionsUseCase
-) : ViewModel() {
+) : MviViewModel<ChampionDetailSingleEvent, Champion, Versions, ChampionDetailIntent>() {
 
-    private val _champion: MutableStateFlow<Champion?> = MutableStateFlow(null)
-    private val _error: MutableStateFlow<String?> = MutableStateFlow(null)
-
-    val champion: StateFlow<Champion?> = _champion
-    val error = _error
-
-    fun getChampionDetail(version: String, language: String, championId: String) {
-        viewModelScope.launch {
-            getChampionsUseCase.execute(GetChampionsUseCase.Parameters(version, language, false)).first()
-                .onSuccess {
-                    _champion.value = it.find { champion ->
-                        champion.id == championId
+    override fun processIntent(intent: ChampionDetailIntent): Flow<ViewState<Champion, Versions>> {
+        return when(intent) {
+            is ChampionDetailIntent.GetChampion -> {
+                getChampionsUseCase.execute(GetChampionsUseCase.Parameters(intent.version, intent.language))
+                    .map {
+                        ViewState<Champion, Versions>(dataList = it.filter { champion ->
+                            champion.id == intent.championId
+                        }, isLoading = false)
+                    }.catch { e ->
+                        emit(ViewState(error = e))
                     }
-                }.onFailure {
-                    _error.value = it.message
-                }
+            }
         }
     }
+}
+
+sealed class ChampionDetailIntent: MviIntent {
+    data class GetChampion(val version: String, val language: String, val championId: String) : ChampionDetailIntent()
+}
+
+sealed class ChampionDetailSingleEvent: MviSingleEvent {
+
 }
