@@ -1,6 +1,11 @@
 # LoLDex
 Champion dex of League of legends 
 
+<img src="https://github.com/huiung/LoLDex/assets/38308286/d3d9e4bd-16b2-4d78-87b9-c2c55282b066" width="30%"/>
+&nbsp;&nbsp;&nbsp;
+<img src="https://github.com/huiung/LoLDex/assets/38308286/7277a010-ec06-416e-a872-9077535f1226" width="30%"/>
+
+
 ## Open-source libraries
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - Jetpack
