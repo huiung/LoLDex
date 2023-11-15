@@ -10,12 +10,18 @@ Champion dex of League of legends
   - Room: Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
   - [Hilt](https://dagger.dev/hilt/): for dependency injection.
 - Architecture
-  - MVI + Clean Architecture
+  - MVI + Google's official architecture
   - Repository Pattern
 - [Material 3](https://m3.material.io/components): Material 3 components.
 - [Moshi](https://github.com/square/moshi/): A modern JSON library for Kotlin and Java.
 - [Retrofit2 & OkHttp3](https://github.com/square/retrofit): Construct the REST APIs and paging network data.
 - [Coil](https://github.com/coil-kt/coil): An image loading library for Android backed by Kotlin Coroutines (with compose)
+
+## Architecture
+LoLDex is based MVI + Google's official architecture guide(https://developer.android.com/topic/architecture) <br>
+Therefore, LoLDex has three modules: App -> Domain -> Data
+
+<img src="https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview.png" width="50%"/>
 
 ## RiotAPI(Data Dragon)
 <img src="https://static-00.iconduck.com/assets.00/riotgames-icon-249x256-3lpy0d01.png" align="right" width="10%"/>
