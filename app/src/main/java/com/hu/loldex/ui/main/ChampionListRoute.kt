@@ -89,8 +89,8 @@ private fun ChampionListScreen(
 
 
     val viewState by vm.viewState.collectAsState()
-    val version = viewState.metaData?.versions ?: emptyList()
-    val champions = viewState.dataList
+    val version = viewState.versions ?: emptyList()
+    val champions = viewState.champions
     val language = vm.language
 
     var selectedVersion by rememberSaveable { mutableStateOf(version.firstOrNull()) }

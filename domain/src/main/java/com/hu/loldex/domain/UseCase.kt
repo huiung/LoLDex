@@ -19,5 +19,5 @@ import kotlinx.coroutines.flow.Flow
  */
 abstract class UseCase<P, T> {
 
-      abstract fun execute(parameters: P): Flow<T>
+      abstract suspend fun execute(parameters: P): Result<T>
 }

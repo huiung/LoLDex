@@ -27,17 +27,24 @@ class GetChampionsUseCase @Inject constructor(
     private val repository: LoLDexRepository,
     private val championMapper: ChampionMapper
 ) : UseCase<GetChampionsUseCase.Parameters, List<Champion>>() {
-    override fun execute(parameters: GetChampionsUseCase.Parameters): Flow<List<Champion>> =
-        repository.getChampions(parameters.version, parameters.language, parameters.forceLoad)
-            .map { list ->
-                list.map { championEntity ->
+    override suspend fun execute(parameters: GetChampionsUseCase.Parameters): Result<List<Champion>> =
+        kotlin.runCatching {
+            repository.getChampions(parameters.version, parameters.language, parameters.forceLoad)
+                .map { championEntity ->
                     championMapper.mapFromEntity(championEntity)
+                }.filter {
+                    if (parameters.championId != null) {
+                        it.id == parameters.championId
+                    } else {
+                        true
+                    }
                 }
-            }
+        }
 
     data class Parameters(
         val version: String,
         val language: String,
-        val forceLoad: Boolean = true
+        val forceLoad: Boolean = true,
+        val championId: String? = null
     )
 }

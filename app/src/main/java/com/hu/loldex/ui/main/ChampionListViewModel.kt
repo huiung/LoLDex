@@ -1,7 +1,5 @@
 package com.hu.loldex.ui.main
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.hu.loldex.domain.GetChampionsUseCase
 import com.hu.loldex.domain.GetVersionUseCase
 import com.hu.loldex.model.Champion
@@ -9,15 +7,8 @@ import com.hu.loldex.model.Versions
 import com.hu.loldex.ui.base.MviIntent
 import com.hu.loldex.ui.base.MviSingleEvent
 import com.hu.loldex.ui.base.MviViewModel
-import com.hu.loldex.ui.base.ViewState
+import com.hu.loldex.ui.base.MviViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /*
@@ -39,42 +30,96 @@ import javax.inject.Inject
 class ChampionListViewModel @Inject constructor(
     private val getChampionsUseCase: GetChampionsUseCase,
     private val getVersionUseCase: GetVersionUseCase
-) : MviViewModel<ChampionListSingleEvent, Champion, Versions, ChampionListIntent>() {
+) : MviViewModel<ChampionListSingleEvent, ChampionListState, ChampionListIntent>() {
 
-    val language : List<String> = listOf("ko_KR", "en_US")
+    val language: List<String> = listOf("ko_KR", "en_US")
 
-    init {
-        sendIntent(ChampionListIntent.GetVersions)
-    }
-
-    override fun processIntent(intent: ChampionListIntent): Flow<ViewState<Champion, Versions>> {
-        return when(intent) {
-            is ChampionListIntent.GetVersions -> {
-                getVersionUseCase.execute(Unit)
-                    .map {
-                        sendIntent(ChampionListIntent.GetChampions(it.versions[0], language.first()))
-                        ViewState<Champion, Versions>(metaData = it, isLoading = false)
-                    }.catch { e ->
-                        emit(ViewState(error = e))
-                    }
+    override fun createInitialState(): ChampionListState = ChampionListState(isLoading = true)
+    override fun onViewStateChanged(state: ChampionListState) {
+        when {
+            state.isLoading -> {
+                sendSingleEvent(ChampionListSingleEvent.Loading)
             }
-            is ChampionListIntent.GetChampions -> {
-                getChampionsUseCase.execute(GetChampionsUseCase.Parameters(intent.version, intent.language))
-                    .map {
-                        ViewState<Champion, Versions>(dataList = it, isLoading = false)
-                    }.catch { e ->
-                        emit(ViewState(error = e))
-                    }
+
+            state.error != null -> {
+                //
             }
         }
     }
+
+    init {
+        sendIntent(ChampionListIntent.GetVersions())
+    }
+
+    override fun reduceState(
+        prevState: ChampionListState,
+        intent: ChampionListIntent,
+        ret: Any?,
+        error: Throwable?
+    ): ChampionListState {
+
+        val champions = when (intent) {
+            is ChampionListIntent.GetChampions -> (ret as List<Champion>?) ?: prevState.champions
+            else -> prevState.champions
+        }
+
+        val versions = when (intent) {
+            is ChampionListIntent.GetVersions -> (ret as Versions?)?.versions ?: prevState.versions
+            else -> prevState.versions
+        }
+
+        return prevState.copy(
+            isLoading = false,
+            error = error,
+            champions = champions,
+            versions = versions
+        )
+    }
+
+    override suspend fun processUseCase(
+        prevState: ChampionListState,
+        intent: ChampionListIntent,
+    ): ChampionListState {
+        return when (intent) {
+            is ChampionListIntent.GetVersions -> {
+                getVersionUseCase.execute(Unit)
+                    .onSuccess {
+                        sendIntent(
+                            ChampionListIntent.GetChampions(
+                                it.versions[0],
+                                language.first()
+                            )
+                        )
+                    }
+            }
+
+            is ChampionListIntent.GetChampions -> {
+                getChampionsUseCase.execute(
+                    GetChampionsUseCase.Parameters(
+                        intent.version,
+                        intent.language
+                    )
+                )
+            }
+        }.mapToState(prevState, intent)
+    }
 }
 
-sealed class ChampionListIntent: MviIntent {
-    data object GetVersions : ChampionListIntent()
-    data class GetChampions(val version: String, val language: String) : ChampionListIntent()
+data class ChampionListState(
+    override val isLoading: Boolean = false,
+    override val error: Throwable? = null,
+    val champions: List<Champion>? = null,
+    val versions: List<String>? = null
+) : MviViewState
+
+sealed class ChampionListIntent : MviIntent {
+    data class GetVersions(override val useLoading: Boolean = false) : ChampionListIntent()
+    data class GetChampions(
+        val version: String, val language: String,
+        override val useLoading: Boolean = false
+    ) : ChampionListIntent()
 }
 
-sealed class ChampionListSingleEvent: MviSingleEvent {
-
+sealed class ChampionListSingleEvent : MviSingleEvent {
+    data object Loading : ChampionListSingleEvent()
 }

@@ -21,11 +21,11 @@ import kotlinx.coroutines.flow.Flow
  */
 interface LoLDexRepository {
 
-    fun getVersions(): Flow<VersionsEntity>
-    fun getChampions(
+    suspend fun getVersions(): VersionsEntity
+    suspend fun getChampions(
         version: String,
         language: String,
         forceLoad: Boolean
-    ): Flow<List<ChampionEntity>>
+    ): List<ChampionEntity>
 
 }

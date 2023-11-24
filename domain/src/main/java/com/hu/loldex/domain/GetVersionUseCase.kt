@@ -27,10 +27,9 @@ class GetVersionUseCase @Inject constructor(
     private val repository: LoLDexRepository,
     private val mapper: VersionsMapper
 ) : UseCase<Unit, Versions>() {
-    override fun execute(parameters: Unit): Flow<Versions> =
-        repository.getVersions()
-            .map {
-                mapper.mapFromEntity(it)
-            }
+    override suspend fun execute(parameters: Unit): Result<Versions> =
+        kotlin.runCatching {
+            mapper.mapFromEntity(repository.getVersions())
+        }
 
 }

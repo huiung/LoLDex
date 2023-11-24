@@ -1,6 +1,5 @@
 package com.hu.loldex.ui.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.spacedBy
@@ -83,7 +82,7 @@ fun ChampionDetailRoute(
     onBackPressed: () -> Unit = { }
 ) {
     val viewState by vm.viewState.collectAsState()
-    val champion = viewState.dataList?.firstOrNull()
+    val champion = viewState.champion
 
     LaunchedEffect(Unit) {
         vm.sendIntent(ChampionDetailIntent.GetChampion(version, language, championId))
@@ -133,29 +132,6 @@ fun ChampionDetailScreen(
     onBackPressed: () -> Unit = { }
 ) {
     val scrollState = rememberScrollState()
-
-    val brush = remember {
-        Brush.linearGradient(
-            listOf(
-                listOf(
-                    Red300,
-                    Red500,
-                ),
-                listOf(
-                    Yellow300,
-                    Yellow500,
-                ),
-                listOf(
-                    Green300,
-                    Green500,
-                ),
-                listOf(
-                    Blue300,
-                    Blue500,
-                ),
-            ).random()
-        )
-    }
 
     Column(
         modifier = Modifier

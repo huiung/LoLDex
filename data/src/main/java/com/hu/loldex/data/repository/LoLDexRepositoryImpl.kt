@@ -1,11 +1,13 @@
 package com.hu.loldex.data.repository
 
 import com.hu.loldex.data.entity.ChampionDao
+import com.hu.loldex.data.entity.ChampionEntity
 import com.hu.loldex.data.entity.VersionsEntity
 import com.hu.loldex.data.service.LoLDexService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,24 +32,25 @@ internal class LoLDexRepositoryImpl @Inject constructor(
     private val championDao: ChampionDao
 ) : LoLDexRepository {
 
-    override fun getVersions() = flow {
-        val response = loLDexService.getVersions()
-        emit(VersionsEntity(response.take(300)))
-    }.flowOn(Dispatchers.IO)
-
-    override fun getChampions(version: String, language: String, forceLoad: Boolean) = flow {
-        if (!forceLoad) {
-            val champions = championDao.getAll()
-            champions.isNullOrEmpty().not().let {
-                emit(champions)
-                return@flow
-            }
+    override suspend fun getVersions() : VersionsEntity {
+        return withContext(Dispatchers.IO) {
+            VersionsEntity(loLDexService.getVersions())
         }
+    }
 
+    override suspend fun getChampions(version: String, language: String, forceLoad: Boolean): List<ChampionEntity> {
+        return withContext(Dispatchers.IO) {
+            if (!forceLoad) {
+                val champions = championDao.getAll()
+                champions.isNullOrEmpty().not().let {
+                    return@withContext champions
+                }
+            }
 
-        val response = loLDexService.getChampions(version, language)
-        val dataList = response.data.values.toList()
-        championDao.insertAll(dataList)
-        emit(dataList)
-    }.flowOn(Dispatchers.IO)
+            val response = loLDexService.getChampions(version, language)
+            val dataList = response.data.values.toList()
+            championDao.insertAll(dataList)
+            dataList
+        }
+    }
 }
