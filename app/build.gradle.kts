@@ -67,22 +67,11 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
 
     //compose
-    implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.navigation)
-    implementation(libs.compose.ui.util)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.lifecycle.viewmodel)
-    implementation(libs.compose.lifecycle.runtime)
-    implementation(libs.compose.material)
-    implementation(libs.compose.material3)
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.bundles.compose)
 
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.compose.ui.test)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test)
 
     //hilt
     implementation(libs.hilt.android)
