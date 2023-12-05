@@ -1,5 +1,6 @@
 package com.hu.loldex.ui.main
 
+import androidx.lifecycle.SavedStateHandle
 import com.hu.loldex.domain.GetChampionsUseCase
 import com.hu.loldex.model.Champion
 import com.hu.loldex.ui.base.MviIntent
@@ -26,8 +27,17 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ChampionDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getChampionsUseCase: GetChampionsUseCase
 ) : MviViewModel<ChampionDetailSingleEvent, ChampionDetailState, ChampionDetailIntent>() {
+
+    private val version = savedStateHandle.get<String>("version") ?: ""
+    private val language = savedStateHandle.get<String>("language") ?: ""
+    private val championId = savedStateHandle.get<String>("championId") ?: ""
+
+    init {
+        sendIntent(ChampionDetailIntent.GetChampion(version, language, championId))
+    }
 
     override fun createInitialState(): ChampionDetailState = ChampionDetailState(isLoading = true)
 

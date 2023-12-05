@@ -75,18 +75,11 @@ import com.hu.loldex.ui.utils.ChampionImage
 @Composable
 fun ChampionDetailRoute(
     vm: ChampionDetailViewModel,
-    version: String,
-    language: String,
-    championId: String,
     navController: NavController,
     onBackPressed: () -> Unit = { }
 ) {
     val viewState by vm.viewState.collectAsState()
     val champion = viewState.champion
-
-    LaunchedEffect(Unit) {
-        vm.sendIntent(ChampionDetailIntent.GetChampion(version, language, championId))
-    }
 
     champion?.let {
         Scaffold(

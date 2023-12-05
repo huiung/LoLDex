@@ -34,6 +34,9 @@ class ChampionListViewModel @Inject constructor(
 
     val language: List<String> = listOf("ko_KR", "en_US")
 
+    init {
+        sendIntent(ChampionListIntent.GetVersions())
+    }
     override fun createInitialState(): ChampionListState = ChampionListState(isLoading = true)
     override fun onViewStateChanged(state: ChampionListState) {
         when {
@@ -45,10 +48,6 @@ class ChampionListViewModel @Inject constructor(
                 //
             }
         }
-    }
-
-    init {
-        sendIntent(ChampionListIntent.GetVersions())
     }
 
     override fun reduceState(

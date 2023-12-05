@@ -72,12 +72,8 @@ fun MainNavGraph(
             )
         ) { backStackEntry ->
 
-            val version = backStackEntry.arguments?.getString("version") ?: ""
-            val language = backStackEntry.arguments?.getString("language") ?: ""
-            val championId = backStackEntry.arguments?.getString("championId") ?: ""
-
             val vm = hiltViewModel<ChampionDetailViewModel>()
-            ChampionDetailRoute(vm, version, language, championId, navController) {
+            ChampionDetailRoute(vm, navController) {
                 if (!navController.popBackStack()) {
                     finishActivity()
                 }
