@@ -97,4 +97,5 @@ sealed class ChampionDetailIntent : MviIntent {
 
 sealed class ChampionDetailSingleEvent : MviSingleEvent {
     data object Loading : ChampionDetailSingleEvent()
+    data object ShowToast : ChampionDetailSingleEvent()
 }

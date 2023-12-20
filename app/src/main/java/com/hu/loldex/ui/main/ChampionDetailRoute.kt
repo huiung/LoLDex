@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hu.loldex.R
 import com.hu.loldex.model.Champion
@@ -78,41 +79,66 @@ fun ChampionDetailRoute(
     navController: NavController,
     onBackPressed: () -> Unit = { }
 ) {
-    val viewState by vm.viewState.collectAsState()
+    val viewState by vm.viewState.collectAsStateWithLifecycle()
     val champion = viewState.champion
 
-    champion?.let {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    navigationIcon = {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier
-                                .padding(start = 8.dp, end = 16.dp)
-                                .clickable {
-                                    onBackPressed()
-                                }
-                        )
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                    title = {
-                        Text(stringResource(id = R.string.app_name))
-                    }
+    LaunchedEffect(Unit) {
+        // Handling SingleEvent
+        vm.singleEvent.collect {
+            when (it) {
+                is ChampionDetailSingleEvent.Loading -> {
+
+                }
+                is ChampionDetailSingleEvent.ShowToast -> {
+
+                }
+            }
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "back",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 16.dp)
+                            .clickable {
+                                onBackPressed()
+                            }
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                title = {
+                    Text(stringResource(id = R.string.app_name))
+                }
+            )
+        }
+    ) { innerPadding ->
+
+        when {
+            viewState.isLoading -> {
+                // LoadingScreen
+            }
+
+            viewState.error != null -> {
+                // ErrorScreen
+            }
+
+            champion != null -> {
+                ChampionDetailScreen(
+                    innerPadding,
+                    champion = champion,
+                    navController = navController,
+                    onBackPressed = onBackPressed
                 )
             }
-        ) { innerPadding ->
-            ChampionDetailScreen(
-                innerPadding,
-                champion = it,
-                vm = vm,
-                onBackPressed = onBackPressed
-            )
         }
     }
 }
@@ -121,7 +147,7 @@ fun ChampionDetailRoute(
 fun ChampionDetailScreen(
     innerPadding: PaddingValues,
     champion: Champion,
-    vm: ChampionDetailViewModel,
+    navController: NavController,
     onBackPressed: () -> Unit = { }
 ) {
     val scrollState = rememberScrollState()

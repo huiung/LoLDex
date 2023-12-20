@@ -121,4 +121,5 @@ sealed class ChampionListIntent : MviIntent {
 
 sealed class ChampionListSingleEvent : MviSingleEvent {
     data object Loading : ChampionListSingleEvent()
+    data object ShowToast : ChampionListSingleEvent()
 }

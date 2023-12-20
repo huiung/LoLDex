@@ -33,11 +33,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.hu.loldex.R
 import com.hu.loldex.model.Champion
 import com.hu.loldex.ui.utils.ChampionImage
 import com.hu.loldex.ui.utils.LargeDropdownMenu
+import kotlinx.coroutines.flow.collect
 
 /*
  * Designed and developed by 2023 huiung
@@ -61,6 +63,25 @@ fun ChampionListRoute(
     navController: NavController,
     onBackPressed: () -> Unit,
 ) {
+    val viewState by vm.viewState.collectAsStateWithLifecycle()
+    val version = viewState.versions ?: emptyList()
+    val champions = viewState.champions
+    val language = vm.language
+
+    LaunchedEffect(Unit) {
+        vm.singleEvent.collect {
+            when (it) { //handle single event
+                is ChampionListSingleEvent.Loading -> {
+
+                }
+                is ChampionListSingleEvent.ShowToast -> {
+
+                }
+            }
+
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -74,7 +95,15 @@ fun ChampionListRoute(
             )
         }
     ) { innerPadding ->
-        ChampionListScreen(innerPadding, vm, navController, onBackPressed)
+        ChampionListScreen(
+            innerPadding = innerPadding,
+            version = version,
+            champions = champions,
+            language = language,
+            navController = navController,
+            sendIntent = vm::sendIntent,
+            onBackPressed = onBackPressed
+        )
     }
 
 }
@@ -82,16 +111,14 @@ fun ChampionListRoute(
 @Composable
 private fun ChampionListScreen(
     innerPadding: PaddingValues,
-    vm: ChampionListViewModel,
+    version: List<String>,
+    champions: List<Champion>?,
+    language: List<String>,
     navController: NavController,
+    sendIntent: (ChampionListIntent) -> Unit,
     onBackPressed: () -> Unit,
 ) {
 
-
-    val viewState by vm.viewState.collectAsState()
-    val version = viewState.versions ?: emptyList()
-    val champions = viewState.champions
-    val language = vm.language
 
     var selectedVersion by rememberSaveable { mutableStateOf(version.firstOrNull()) }
     var selectedLanguage by rememberSaveable { mutableStateOf(language.first()) }
@@ -113,7 +140,7 @@ private fun ChampionListScreen(
                 selectedIndex = selectedVersion?.let { version.indexOf(it) } ?: 0,
                 onItemSelected = { index, _ ->
                     selectedVersion = version.get(index)
-                    vm.sendIntent(ChampionListIntent.GetChampions(selectedVersion ?: "", selectedLanguage))
+                    sendIntent(ChampionListIntent.GetChampions(selectedVersion ?: "", selectedLanguage))
                 },
             )
 
@@ -126,7 +153,7 @@ private fun ChampionListScreen(
                 selectedIndex = selectedLanguage.let { language.indexOf(it) },
                 onItemSelected = { index, _ ->
                     selectedLanguage = language[index]
-                    vm.sendIntent(ChampionListIntent.GetChampions(selectedVersion ?: "", selectedLanguage))
+                    sendIntent(ChampionListIntent.GetChampions(selectedVersion ?: "", selectedLanguage))
                 },
             )
         }
