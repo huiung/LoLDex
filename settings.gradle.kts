@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Loldex"
+rootProject.name = "LoLDex"
 include(":app")
 include(":data")
 include(":domain")
