@@ -4,7 +4,7 @@ targetSdk = "34"
 compileSdk = "34"
 
 androidGradlePlugin = "8.2.2"
-kotlin = "1.9.22"
+kotlin = "1.9.24"
 ksp = "1.9.22-1.0.17"
 
 lifecycle = "2.6.2"
