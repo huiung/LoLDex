@@ -4,8 +4,8 @@ targetSdk = "34"
 compileSdk = "34"
 
 androidGradlePlugin = "8.2.2"
-kotlin = "1.9.24"
-ksp = "1.9.24-1.0.20"
+kotlin = "1.9.23"
+ksp = "1.9.23-1.0.20"
 
 lifecycle = "2.7.0"
 
@@ -32,7 +32,7 @@ espressoCore = "3.5.1"
 
 #compose
 composeBom = "2024.04.00"
-composeCompiler = "1.5.10"
+composeCompiler = "1.5.13"
 
 #coil
 coil = "2.5.0"
