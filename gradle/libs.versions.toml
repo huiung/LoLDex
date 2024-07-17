@@ -35,7 +35,7 @@ composeBom = "2024.04.00"
 composeCompiler = "1.5.13"
 
 #coil
-coil = "2.5.0"
+coil = "2.7.0"
 
 #room
 room = "2.6.1"
