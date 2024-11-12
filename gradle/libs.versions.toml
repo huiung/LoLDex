@@ -34,7 +34,7 @@ espressoCore = "3.6.1"
 composeBom = "2024.10.01"
 
 #coil
-coil = "2.5.0"
+coil = "2.7.0"
 
 #room
 room = "2.6.1"
