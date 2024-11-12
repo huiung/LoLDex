@@ -32,7 +32,6 @@ espressoCore = "3.5.1"
 
 #compose
 composeBom = "2024.10.01"
-composeCompiler = "1.5.13"
 
 #coil
 coil = "2.5.0"
@@ -112,6 +111,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 
 [bundles]
