@@ -1,7 +1,4 @@
-package com.hu.loldex.data.entity
-
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+package com.hu.loldex.data.dto
 
 /*
  * Designed and developed by 2023 huiung
@@ -18,10 +15,6 @@ import com.squareup.moshi.JsonClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@JsonClass(generateAdapter = true)
-data class ChampionsEntity(
-    @Json(name = "type") val type: String,
-    @Json(name = "format") val format: String,
-    @Json(name = "version") val version: String,
-    @Json(name = "data") val data: Map<String, ChampionEntity>
+data class VersionsDto(
+    val versions: List<String>
 )

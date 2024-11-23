@@ -1,7 +1,6 @@
 package com.hu.loldex.data.service
 
-import com.hu.loldex.data.entity.ChampionsEntity
-import com.hu.loldex.data.entity.VersionsEntity
+import com.hu.loldex.data.dto.ChampionsDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -28,6 +27,6 @@ interface LoLDexService {
     suspend fun getChampions(
         @Path("version") version: String,
         @Path("language") language: String = "ko_KR"
-    ): ChampionsEntity
+    ): ChampionsDto
 
 }

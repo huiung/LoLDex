@@ -3,8 +3,8 @@ package com.hu.loldex.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.hu.loldex.data.entity.ChampionDao
-import com.hu.loldex.data.entity.ChampionEntity
+import com.hu.loldex.data.dao.ChampionDao
+import com.hu.loldex.data.dto.ChampionDto
 
 /*
  * Designed and developed by 2023 huiung
@@ -21,7 +21,7 @@ import com.hu.loldex.data.entity.ChampionEntity
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@Database(entities = [ChampionEntity::class], version = 1)
+@Database(entities = [ChampionDto::class], version = 1)
 @TypeConverters(Converters::class)
 internal abstract class LoLDexDatabase : RoomDatabase() {
       abstract fun championDao(): ChampionDao

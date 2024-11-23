@@ -1,6 +1,6 @@
 package com.hu.loldex.mapper
 
-import com.hu.loldex.data.entity.VersionsEntity
+import com.hu.loldex.data.dto.VersionsDto
 import com.hu.loldex.model.Versions
 import javax.inject.Inject
 
@@ -20,15 +20,15 @@ import javax.inject.Inject
  * limitations under the License.
  */
 class VersionsMapper  @Inject constructor()
-    : EntityMapper<VersionsEntity, Versions> {
-    override fun mapFromEntity(entity: VersionsEntity): Versions {
+    : DtoMapper<VersionsDto, Versions> {
+    override fun mapFromDto(entity: VersionsDto): Versions {
         return Versions(
             versions = entity.versions
         )
     }
 
-    override fun mapToEntity(model: Versions): VersionsEntity {
-        return VersionsEntity(
+    override fun mapToDto(model: Versions): VersionsDto {
+        return VersionsDto(
             versions = model.versions
         )
     }

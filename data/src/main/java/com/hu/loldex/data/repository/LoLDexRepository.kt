@@ -1,8 +1,7 @@
 package com.hu.loldex.data.repository
 
-import com.hu.loldex.data.entity.ChampionEntity
-import com.hu.loldex.data.entity.VersionsEntity
-import kotlinx.coroutines.flow.Flow
+import com.hu.loldex.data.dto.ChampionDto
+import com.hu.loldex.data.dto.VersionsDto
 
 /*
  * Designed and developed by 2023 huiung
@@ -21,11 +20,11 @@ import kotlinx.coroutines.flow.Flow
  */
 interface LoLDexRepository {
 
-    suspend fun getVersions(): VersionsEntity
+    suspend fun getVersions(): VersionsDto
     suspend fun getChampions(
         version: String,
         language: String,
         forceLoad: Boolean
-    ): List<ChampionEntity>
+    ): List<ChampionDto>
 
 }

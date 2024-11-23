@@ -1,7 +1,6 @@
 package com.hu.loldex.data.service
 
-import com.hu.loldex.data.entity.ChampionsEntity
-import com.hu.loldex.data.entity.VersionsEntity
+import com.hu.loldex.data.dto.ChampionsDto
 import javax.inject.Inject
 
 /*
@@ -27,7 +26,7 @@ class LoLDexDataSource @Inject constructor(
         return lolDexService.getVersions()
     }
 
-    suspend fun getChampions(version: String): ChampionsEntity {
+    suspend fun getChampions(version: String): ChampionsDto {
         return lolDexService.getChampions(version)
     }
 

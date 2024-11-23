@@ -3,9 +3,6 @@ package com.hu.loldex.domain
 import com.hu.loldex.model.Champion
 import com.hu.loldex.mapper.ChampionMapper
 import com.hu.loldex.data.repository.LoLDexRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /*
@@ -31,7 +28,7 @@ class GetChampionsUseCase @Inject constructor(
         kotlin.runCatching {
             repository.getChampions(parameters.version, parameters.language, parameters.forceLoad)
                 .map { championEntity ->
-                    championMapper.mapFromEntity(championEntity)
+                    championMapper.mapFromDto(championEntity)
                 }.filter {
                     if (parameters.championId != null) {
                         it.id == parameters.championId

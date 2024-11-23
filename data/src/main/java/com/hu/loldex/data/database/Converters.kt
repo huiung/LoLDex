@@ -2,7 +2,6 @@ package com.hu.loldex.data.database
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.hu.loldex.data.entity.ChampionEntity
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

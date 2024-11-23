@@ -1,6 +1,6 @@
 package com.hu.loldex.mapper
 
-import com.hu.loldex.data.entity.ChampionEntity
+import com.hu.loldex.data.dto.ChampionDto
 import com.hu.loldex.model.Champion
 import javax.inject.Inject
 
@@ -21,8 +21,8 @@ import javax.inject.Inject
  */
 class ChampionImageMapper @Inject constructor(
 
-) : EntityMapper<ChampionEntity.Image, Champion.Image> {
-    override fun mapFromEntity(entity: ChampionEntity.Image): Champion.Image {
+) : DtoMapper<ChampionDto.Image, Champion.Image> {
+    override fun mapFromDto(entity: ChampionDto.Image): Champion.Image {
         return Champion.Image(
             full = entity.full,
             sprite = entity.sprite,
@@ -34,8 +34,8 @@ class ChampionImageMapper @Inject constructor(
         )
     }
 
-    override fun mapToEntity(model: Champion.Image): ChampionEntity.Image {
-        return ChampionEntity.Image(
+    override fun mapToDto(model: Champion.Image): ChampionDto.Image {
+        return ChampionDto.Image(
             full = model.full,
             sprite = model.sprite,
             group = model.group,

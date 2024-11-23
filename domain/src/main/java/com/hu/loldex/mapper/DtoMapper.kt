@@ -15,7 +15,7 @@ package com.hu.loldex.mapper
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface EntityMapper<Entity, Model> {
-    fun mapFromEntity(entity: Entity): Model
-    fun mapToEntity(model: Model): Entity
+interface DtoMapper<Dto, Model> {
+    fun mapFromDto(entity: Dto): Model
+    fun mapToDto(model: Model): Dto
 }

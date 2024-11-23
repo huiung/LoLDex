@@ -1,4 +1,4 @@
-package com.hu.loldex.data.entity
+package com.hu.loldex.data.dto
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -77,7 +77,7 @@ import com.squareup.moshi.JsonClass
  */
 @Entity(tableName = "champion", indices = [Index(value = ["id"], unique = true)])
 @JsonClass(generateAdapter = true)
-data class ChampionEntity(
+data class ChampionDto(
     @Json(name = "version") val version: String,
     @PrimaryKey @Json(name = "id") val id: String,
     @Json(name = "key") val key: String,

@@ -3,9 +3,6 @@ package com.hu.loldex.domain
 import com.hu.loldex.data.repository.LoLDexRepository
 import com.hu.loldex.mapper.VersionsMapper
 import com.hu.loldex.model.Versions
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /*
@@ -29,7 +26,7 @@ class GetVersionUseCase @Inject constructor(
 ) : UseCase<Unit, Versions>() {
     override suspend fun execute(parameters: Unit): Result<Versions> =
         kotlin.runCatching {
-            mapper.mapFromEntity(repository.getVersions())
+            mapper.mapFromDto(repository.getVersions())
         }
 
 }

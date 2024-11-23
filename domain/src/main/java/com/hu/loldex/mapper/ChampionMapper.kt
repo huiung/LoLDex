@@ -1,6 +1,6 @@
 package com.hu.loldex.mapper
 
-import com.hu.loldex.data.entity.ChampionEntity
+import com.hu.loldex.data.dto.ChampionDto
 import com.hu.loldex.model.Champion
 import javax.inject.Inject
 
@@ -23,8 +23,8 @@ class ChampionMapper @Inject constructor(
     private val championInfoMapper: ChampionInfoMapper,
     private val championImageMapper: ChampionImageMapper,
     private val championStatsMapper: ChampionStatsMapper
-) : EntityMapper<ChampionEntity, Champion> {
-    override fun mapFromEntity(entity: ChampionEntity): Champion =
+) : DtoMapper<ChampionDto, Champion> {
+    override fun mapFromDto(entity: ChampionDto): Champion =
         Champion(
             version = entity.version,
             id = entity.id,
@@ -32,27 +32,27 @@ class ChampionMapper @Inject constructor(
             name = entity.name,
             title = entity.title,
             blurb = entity.blurb,
-            info = championInfoMapper.mapFromEntity(entity.info),
-            image = championImageMapper.mapFromEntity(entity.image),
+            info = championInfoMapper.mapFromDto(entity.info),
+            image = championImageMapper.mapFromDto(entity.image),
             tags = entity.tags,
             partype = entity.partype,
-            stats = championStatsMapper.mapFromEntity(entity.stats)
+            stats = championStatsMapper.mapFromDto(entity.stats)
         )
 
 
-    override fun mapToEntity(model: Champion): ChampionEntity =
-        ChampionEntity(
+    override fun mapToDto(model: Champion): ChampionDto =
+        ChampionDto(
             version = model.version,
             id = model.id,
             key = model.key,
             name = model.name,
             title = model.title,
             blurb = model.blurb,
-            info = championInfoMapper.mapToEntity(model.info),
-            image = championImageMapper.mapToEntity(model.image),
+            info = championInfoMapper.mapToDto(model.info),
+            image = championImageMapper.mapToDto(model.image),
             tags = model.tags,
             partype = model.partype,
-            stats = championStatsMapper.mapToEntity(model.stats)
+            stats = championStatsMapper.mapToDto(model.stats)
         )
 
 }

@@ -1,4 +1,10 @@
-package com.hu.loldex.data.entity
+package com.hu.loldex.data.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.hu.loldex.data.dto.ChampionDto
 
 /*
  * Designed and developed by 2023 huiung
@@ -15,6 +21,16 @@ package com.hu.loldex.data.entity
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-data class VersionsEntity(
-    val versions: List<String>
-)
+
+@Dao
+interface ChampionDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(champions: List<ChampionDto>)
+
+    @Query("SELECT * FROM champion")
+    fun getAll(): List<ChampionDto>
+
+    @Query("SELECT * FROM champion WHERE id = :id")
+    fun getChampion(id: String): ChampionDto
+}

@@ -1,9 +1,7 @@
-package com.hu.loldex.data.entity
+package com.hu.loldex.data.dto
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /*
  * Designed and developed by 2023 huiung
@@ -20,16 +18,10 @@ import androidx.room.Query
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-@Dao
-interface ChampionDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(champions: List<ChampionEntity>)
-
-    @Query("SELECT * FROM champion")
-    fun getAll(): List<ChampionEntity>
-
-    @Query("SELECT * FROM champion WHERE id = :id")
-    fun getChampion(id: String): ChampionEntity
-}
+@JsonClass(generateAdapter = true)
+data class ChampionsDto(
+    @Json(name = "type") val type: String,
+    @Json(name = "format") val format: String,
+    @Json(name = "version") val version: String,
+    @Json(name = "data") val data: Map<String, ChampionDto>
+)

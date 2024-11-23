@@ -1,12 +1,10 @@
 package com.hu.loldex.data.repository
 
-import com.hu.loldex.data.entity.ChampionDao
-import com.hu.loldex.data.entity.ChampionEntity
-import com.hu.loldex.data.entity.VersionsEntity
+import com.hu.loldex.data.dao.ChampionDao
+import com.hu.loldex.data.dto.ChampionDto
+import com.hu.loldex.data.dto.VersionsDto
 import com.hu.loldex.data.service.LoLDexService
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,13 +30,13 @@ internal class LoLDexRepositoryImpl @Inject constructor(
     private val championDao: ChampionDao
 ) : LoLDexRepository {
 
-    override suspend fun getVersions() : VersionsEntity {
+    override suspend fun getVersions() : VersionsDto {
         return withContext(Dispatchers.IO) {
-            VersionsEntity(loLDexService.getVersions())
+            VersionsDto(loLDexService.getVersions())
         }
     }
 
-    override suspend fun getChampions(version: String, language: String, forceLoad: Boolean): List<ChampionEntity> {
+    override suspend fun getChampions(version: String, language: String, forceLoad: Boolean): List<ChampionDto> {
         return withContext(Dispatchers.IO) {
             if (!forceLoad) {
                 val champions = championDao.getAll()
