@@ -31,7 +31,7 @@ androidxTestExtJunit = "1.1.5"
 espressoCore = "3.6.1"
 
 #compose
-composeBom = "2024.10.01"
+composeBom = "2024.11.00"
 
 #coil
 coil = "2.7.0"
