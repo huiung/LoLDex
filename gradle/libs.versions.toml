@@ -9,7 +9,7 @@ ksp = "2.0.21-1.0.27"
 
 lifecycle = "2.8.7"
 
-coroutines = "1.7.3"
+coroutines = "1.10.2"
 
 retrofit2 = "2.9.0"
 okhttp3 = "4.12.0"
