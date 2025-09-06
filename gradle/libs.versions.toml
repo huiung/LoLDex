@@ -21,7 +21,7 @@ androidxCoreKtx = "1.15.0"
 androidxAppcompat = "1.6.1"
 androidxActivity = "1.8.2"
 androidxConstraintlayout = "2.1.4"
-androidxMaterial = "1.11.0"
+androidxMaterial = "1.13.0"
 androidxNavigation = "2.8.3"
 
 moshi = "1.15.1"
