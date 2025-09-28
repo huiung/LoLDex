@@ -22,7 +22,7 @@ androidxAppcompat = "1.6.1"
 androidxActivity = "1.11.0"
 androidxConstraintlayout = "2.1.4"
 androidxMaterial = "1.13.0"
-androidxNavigation = "2.8.3"
+androidxNavigation = "2.9.5"
 
 moshi = "1.15.1"
 
