@@ -24,7 +24,7 @@ androidxConstraintlayout = "2.1.4"
 androidxMaterial = "1.13.0"
 androidxNavigation = "2.8.3"
 
-moshi = "1.15.1"
+moshi = "1.15.2"
 
 junit = "4.13.2"
 androidxTestExtJunit = "1.1.5"
