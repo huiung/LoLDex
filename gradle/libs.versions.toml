@@ -11,7 +11,7 @@ lifecycle = "2.8.7"
 
 coroutines = "1.7.3"
 
-retrofit2 = "2.9.0"
+retrofit2 = "2.12.0"
 okhttp3 = "4.12.0"
 
 hilt = "2.57.2"
